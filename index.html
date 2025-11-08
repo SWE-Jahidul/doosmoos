@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoosMoos AirBend - Bend The Rules of Sound</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f1e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Added multiple animated background orbs for eye-catching effect */
+        .glow-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #ff2a3a, transparent);
+            top: -200px;
+            right: -100px;
+            animation: float1 15s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ff5566, transparent);
+            bottom: -150px;
+            left: -100px;
+            animation: float2 18s ease-in-out infinite reverse;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #ff1744, transparent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float3 20s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-80px) translateX(50px); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(80px) translateX(-50px); }
+        }
+
+        @keyframes float3 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 42, 58, 0.1);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ff2a3a, #ff6b7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff2a3a;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: #ff2a3a;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 50px 60px;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        /* Removed old background orbs and replaced with new positioned ones */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 42, 58, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+            filter: blur(40px);
+            z-index: -1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 42, 58, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 5s ease-in-out infinite reverse;
+            filter: blur(40px);
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 10;
+            max-width: 600px;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-content .tagline {
+            font-size: 14px;
+            color: #ff2a3a;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-content h1 {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 25px;
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+            /* Added glowing text effect */
+            text-shadow: 0 0 30px rgba(255, 42, 58, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            color: #a8a8b0;
+            margin-bottom: 45px;
+            max-width: 500px;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 48px;
+            background: linear-gradient(135deg, #ff2a3a 0%, #ff5566 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(255, 42, 58, 0.3);
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+            /* Added pulse animation to button */
+            animation: fadeInUp 0.8s ease-out 0.5s both, buttonPulse 2s ease-in-out infinite 1s;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(255, 42, 58, 0.5);
+        }
+
+        .cta-button:active {
+            transform: translateY(-2px);
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(255, 42, 58, 0.3); }
+            50% { box-shadow: 0 10px 60px rgba(255, 42, 58, 0.6); }
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            animation: slideInRight 0.8s ease-out;
+            position: relative;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Added glowing rings and orbiting particles around product */
+        .product-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glow-ring {
+            position: absolute;
+            border: 2px solid rgba(255, 42, 58, 0.4);
+            border-radius: 50%;
+            animation: expandRing 3s ease-out infinite;
+        }
+
+        .ring-1 { width: 350px; height: 350px; animation-delay: 0s; }
+        .ring-2 { width: 400px; height: 400px; animation-delay: 0.8s; }
+        .ring-3 { width: 450px; height: 450px; animation-delay: 1.6s; }
+
+        @keyframes expandRing {
+            from {
+                transform: scale(0.8);
+                opacity: 1;
+                border-color: rgba(255, 42, 58, 0.8);
+            }
+            to {
+                transform: scale(1.3);
+                opacity: 0;
+                border-color: rgba(255, 42, 58, 0);
+            }
+        }
+
+        .orbit-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #ff2a3a, transparent);
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px rgba(255, 42, 58, 0.8);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 80px rgba(255, 42, 58, 0.4));
+            animation: float 6s ease-in-out infinite;
+            transition: filter 0.4s ease;
+            position: relative;
+            z-index: 5;
+        }
+
+        .hero-image:hover img {
+            filter: drop-shadow(0 0 120px rgba(255, 42, 58, 0.6));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 50px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(255, 42, 58, 0.03) 100%);
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle, rgba(255, 42, 58, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            animation: pulse 6s ease-in-out infinite;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 54px;
+            font-weight: 900;
+            margin-bottom: 80px;
+            color: #fff;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 5;
+            animation: fadeInUp 1s ease-out;
+            /* Added glowing effect to section titles */
+            text-shadow: 0 0 30px rgba(255, 42, 58, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255, 42, 58, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            padding: 45px 35px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 42, 58, 0.2);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 42, 58, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(255, 42, 58, 0.6);
+            background: linear-gradient(135deg, rgba(255, 42, 58, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(255, 42, 58, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 25px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .feature-card:nth-child(1) .feature-icon { animation-delay: 0s; }
+        .feature-card:nth-child(2) .feature-icon { animation-delay: 0.1s; }
+        .feature-card:nth-child(3) .feature-icon { animation-delay: 0.2s; }
+        .feature-card:nth-child(4) .feature-icon { animation-delay: 0.3s; }
+        .feature-card:nth-child(5) .feature-icon { animation-delay: 0.4s; }
+        .feature-card:nth-child(6) .feature-icon { animation-delay: 0.5s; }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: 800;
+            position: relative;
+            z-index: 10;
+        }
+
+        .feature-card p {
+            color: #a8a8b0;
+            font-size: 15px;
+            position: relative;
+            z-index: 10;
+            line-height: 1.6;
+        }
+
+        /* Specs Section */
+        .specs {
+            padding: 120px 50px;
+            background: linear-gradient(135deg, rgba(255, 42, 58, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%);
+            position: relative;
+            z-index: 10;
+        }
+
+        .specs-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .specs-list {
+            list-style: none;
+        }
+
+        .specs-list li {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            animation: fadeInLeft 0.8s ease-out;
+        }
+
+        .specs-list li:hover {
+            padding-left: 10px;
+            border-bottom-color: rgba(255, 42, 58, 0.4);
+        }
+
+        .specs-list strong {
+            color: #ff2a3a;
+            font-weight: 700;
+        }
+
+        .specs-list span {
+            color: #e0e0e0;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 50px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 42, 58, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 42, 58, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite;
+            filter: blur(60px);
+        }
+
+        .cta-section h2 {
+            font-size: 54px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            color: #fff;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 1s ease-out;
+            /* Added glowing effect */
+            text-shadow: 0 0 30px rgba(255, 42, 58, 0.3);
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: #a8a8b0;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        /* Footer */
+        footer {
+            padding: 50px 50px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid rgba(255, 42, 58, 0.1);
+            background: rgba(0, 0, 0, 0.4);
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero {
+                flex-direction: column;
+                padding: 100px 20px 60px;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 42px;
+            }
+
+            .hero-content p {
+                margin-bottom: 30px;
+            }
+
+            .section-title {
+                font-size: 36px;
+                margin-bottom: 50px;
+            }
+
+            .specs-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .cta-section h2 {
+                font-size: 36px;
+            }
+
+            .features {
+                padding: 80px 20px;
+            }
+
+            .specs {
+                padding: 80px 20px;
+            }
+
+            .cta-section {
+                padding: 80px 20px;
+            }
+
+            footer {
+                padding: 30px 20px;
+            }
+
+            .product-glow {
+                transform: scale(0.7);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Added animated background orbs -->
+    <div class="glow-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">DoosMoos</div>
+        <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#specs">Specs</a></li>
+            <li><a href="#buy">Buy Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="tagline">Bend The Rules</div>
+            <h1>AirBend</h1>
+            <p>Experience revolutionary sound with our premium wireless earbuds. Engineered for those who refuse to compromise on audio quality and style.</p>
+            <button class="cta-button">Shop Now</button>
+        </div>
+        <div class="hero-image">
+            <!-- Added glowing rings and orbiting particles around product -->
+            <div class="product-glow">
+                <div class="glow-ring ring-1"></div>
+                <div class="glow-ring ring-2"></div>
+                <div class="glow-ring ring-3"></div>
+                <div class="orbit-particles">
+                    <div class="particle" style="transform: rotateZ(0deg) translateY(-225px);"></div>
+                    <div class="particle" style="transform: rotateZ(60deg) translateY(-225px);"></div>
+                    <div class="particle" style="transform: rotateZ(120deg) translateY(-225px);"></div>
+                    <div class="particle" style="transform: rotateZ(180deg) translateY(-225px);"></div>
+                    <div class="particle" style="transform: rotateZ(240deg) translateY(-225px);"></div>
+                    <div class="particle" style="transform: rotateZ(300deg) translateY(-225px);"></div>
+                </div>
+            </div>
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-oxMmilE90kh7uZcKXbr8YLiLrBxSN1.png" alt="DoosMoos AirBend Earbuds">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Premium Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔊</div>
+                <h3>Crystal Clear Sound</h3>
+                <p>Advanced noise cancellation technology delivers immersive audio experience in any environment.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔋</div>
+                <h3>Extended Battery</h3>
+                <p>Up to 12 hours of continuous playback with quick charge technology for on-the-go power.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Seamless Connectivity</h3>
+                <p>Bluetooth 5.0 ensures stable connection across all your devices with instant pairing.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Perfect Fit</h3>
+                <p>Ergonomic design with multiple ear tip sizes for personalized comfort and durability.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌊</div>
+                <h3>Water Resistant</h3>
+                <p>IPX5 rated protection keeps your earbuds safe during workouts and outdoor activities.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎤</div>
+                <h3>Premium Mic</h3>
+                <p>Crystal-clear microphone captures every word for flawless calls and voice commands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specs Section -->
+    <section class="specs" id="specs">
+        <h2 class="section-title">Technical Specifications</h2>
+        <div class="specs-content">
+            <div>
+                <h3 style="color: #fff; margin-bottom: 30px; font-size: 24px; font-weight: 800;">Performance</h3>
+                <ul class="specs-list">
+                    <li><strong>Driver Size:</strong> <span>10mm Dynamic</span></li>
+                    <li><strong>Frequency Range:</strong> <span>20Hz - 20kHz</span></li>
+                    <li><strong>Impedance:</strong> <span>32Ω</span></li>
+                    <li><strong>Sensitivity:</strong> <span>105 dB</span></li>
+                    <li><strong>Bluetooth:</strong> <span>5.0</span></li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #fff; margin-bottom: 30px; font-size: 24px; font-weight: 800;">Battery & Design</h3>
+                <ul class="specs-list">
+                    <li><strong>Battery Life:</strong> <span>12 Hours</span></li>
+                    <li><strong>Charging Time:</strong> <span>1.5 Hours</span></li>
+                    <li><strong>Weight:</strong> <span>6.2g per earbud</span></li>
+                    <li><strong>Water Rating:</strong> <span>IPX5</span></li>
+                    <li><strong>Colors:</strong> <span>Midnight Black, Red Rush</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="buy">
+        <h2>Ready to Bend the Rules?</h2>
+        <p>Join thousands of audio enthusiasts who've upgraded to AirBend. Experience the difference premium sound makes.</p>
+        <button class="cta-button">Buy Now - $299.99</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 DoosMoos. All rights reserved. | Bend The Rules of Sound.</p>
+    </footer>
+</body>
+</html>
